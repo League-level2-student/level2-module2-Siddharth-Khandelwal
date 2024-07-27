@@ -3,10 +3,11 @@ package _08_LeagueSnake;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
 
 import processing.core.PApplet;
 
-public class LeagueSnake extends PApplet implements KeyListener{
+public class LeagueSnake extends PApplet {
 	static final int WIDTH = 500;
 	static final int HEIGHT = 500;
 
@@ -18,9 +19,9 @@ public class LeagueSnake extends PApplet implements KeyListener{
 	Segment head;
 	int foodX;
 	int foodY;
-	int direction = UP;
+	int direction = RIGHT;
 	int pieces = 0;
-
+	ArrayList <Segment> segments = new ArrayList <>();
 	/*
 	 * Setup methods
 	 * 
@@ -56,18 +57,19 @@ public class LeagueSnake extends PApplet implements KeyListener{
 		background(0, 0, 0);
 		drawFood();
 		drawSnake();
+		eat();
 	}
 
 	void drawFood() {
 		// Draw the food
-		fill(255, 0, 0);
+		fill(0, 0, 255);
 		rect(foodX, foodY, 10, 10);
 
 	}
 
 	void drawSnake() {
 		// Draw the head of the snake followed by its tail
-		fill(0, 255, 0);
+		fill(255, 165, 0);
 		rect(head.x, head.y, 10, 10);
 
 	}
@@ -105,6 +107,19 @@ public class LeagueSnake extends PApplet implements KeyListener{
 	public void keyPressed() {
 		// Set the direction of the snake according to the arrow keys pressed
 
+		System.out.println(key);
+		if (keyCode == KeyEvent.VK_UP && direction != DOWN) {
+			direction = UP;
+		}
+		if (keyCode == KeyEvent.VK_DOWN && direction!= UP) {
+			direction = DOWN;
+		}
+		if (keyCode == KeyEvent.VK_RIGHT&& direction != LEFT) {
+			direction = RIGHT;
+		}
+		if (keyCode == KeyEvent.VK_LEFT&& direction != RIGHT) {
+			direction = LEFT;
+		}
 	}
 
 	void move() {
@@ -119,19 +134,19 @@ public class LeagueSnake extends PApplet implements KeyListener{
 		} else if (direction == RIGHT) {
 			head.x += 10;
 		}
-checkBoundaries();
+		checkBoundaries();
 	}
 
 	void checkBoundaries() {
 		// If the snake leaves the frame, make it reappear on the other side
 		if (head.x < 0) {
-			head.x = WIDTH-10;
+			head.x = WIDTH - 10;
 		}
 		if (head.x > WIDTH) {
 			head.x = 10;
 		}
 		if (head.y < 0) {
-			head.y = HEIGHT-10;
+			head.y = HEIGHT - 10;
 		}
 		if (head.y > HEIGHT) {
 			head.y = 10;
@@ -141,28 +156,15 @@ checkBoundaries();
 	void eat() {
 		// When the snake eats the food, its tail should grow and more
 		// food appear
-
+if(head.x == foodX && head.y == foodY) {
+	pieces++;
+	dropFood();
+	System.out.println(pieces);
+}
 	}
 
 	static public void main(String[] passedArgs) {
 		PApplet.main(LeagueSnake.class.getName());
 	}
 
-	@Override
-	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
 }
