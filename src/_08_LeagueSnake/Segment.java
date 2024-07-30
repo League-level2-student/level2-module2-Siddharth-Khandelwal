@@ -13,7 +13,8 @@ public class Segment {
     int y = 400;
     
     Segment(int x, int y) {
-    	
+    	this.x=x;
+    	this.y=y;
 	}
     }
 
